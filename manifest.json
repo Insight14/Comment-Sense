@@ -1,0 +1,34 @@
+{
+  "manifest_version": 3,
+  "name": "Comment Sense",
+  "version": "0.1",
+  "description": "Ranks YouTube search results by comment sentiment instead of views.",
+  "permissions": ["storage"],
+  "host_permissions": [
+    "https://www.googleapis.com/*",
+    "https://www.youtube.com/*"
+  ],
+  "background": {
+    "service_worker": "background.js",
+    "type": "module"
+  },
+  "content_scripts": [
+    {
+      "matches": ["https://www.youtube.com/results*"],
+      "js": ["content.js"]
+    }
+  ],
+  "action": {
+    "default_title": "Comment Sense",
+    "default_icon": {
+      "16": "icons/icon16.png",
+      "48": "icons/icon48.png",
+      "128": "icons/icon128.png"
+    }
+  },
+  "icons": {
+    "16": "icons/icon16.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  }
+}
