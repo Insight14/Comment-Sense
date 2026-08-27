@@ -67,6 +67,7 @@ function renderLoadingSidebar() {
     width: 300px;
     background: #1f1f1f;
     color: #fff;
+    border: 1px solid #444;
     border-radius: 10px;
     padding: 16px;
     z-index: 9999;
@@ -74,10 +75,42 @@ function renderLoadingSidebar() {
     box-shadow: 0 2px 12px rgba(0,0,0,0.5);
     text-align: center;
   `;
-  panel.innerHTML = `
-    <div style="font-weight: 600; margin-bottom: 8px;">Comment Sense</div>
-    <div style="color: #aaa; font-size: 13px;">Reading comments…</div>
+      const header = document.createElement('div');
+  header.style.cssText = `
+    padding: 16px;
+    margin: -16px -16px 8px -16px;
+    background: linear-gradient(120deg, #4285f4, #8e67c7, #d96570, #4285f4);
+    background-size: 300% 300%;
+    animation: cs-gradient-shift 6s ease infinite;
+    border-radius: 10px 10px 0 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
   `;
+  header.innerHTML = `
+    <img src="${chrome.runtime.getURL('icons/icon48.png')}" style="width: 22px; height: 22px; border-radius: 6px;" />
+    <div style="font-weight: 700; font-size: 15px; color: #fff;">Comment Sense</div>
+  `;
+  panel.appendChild(header);
+
+  const loadingText = document.createElement('div');
+  loadingText.textContent = "Reading comments…";
+  loadingText.style.cssText = "color: #aaa; font-size: 13px; text-align: center; margin-top: 4px;";
+  panel.appendChild(loadingText);
+
+  if (!document.getElementById('cs-gradient-style')) {
+    const style = document.createElement('style');
+    style.id = 'cs-gradient-style';
+    style.textContent = `
+      @keyframes cs-gradient-shift {
+        0% { background-position: 0% 50%; }
+        50% { background-position: 100% 50%; }
+        100% { background-position: 0% 50%; }
+      }
+    `;
+    document.head.appendChild(style);
+  }
   document.body.appendChild(panel);
 }
 
@@ -96,6 +129,7 @@ function renderSidebar(rankedVideos) {
     overflow-y: auto;
     background: #1f1f1f;
     color: #fff;
+    border: 1px solid #444;
     border-radius: 10px;
     padding: 14px;
     z-index: 9999;
@@ -103,18 +137,51 @@ function renderSidebar(rankedVideos) {
     box-shadow: 0 2px 12px rgba(0,0,0,0.5);
   `;
 
-  const header = document.createElement('div');
+      const header = document.createElement('div');
   header.style.cssText = `
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 12px;
+    padding: 14px 16px 10px 16px;
+    margin: -14px -14px 10px -14px;
+    background: linear-gradient(120deg, #4285f4, #8e67c7, #d96570, #4285f4);
+    background-size: 300% 300%;
+    animation: cs-gradient-shift 6s ease infinite;
+    border-radius: 10px 10px 0 0;
   `;
   header.innerHTML = `
-    <span style="font-weight: 700; font-size: 14px;">Comment Sense</span>
-    <span id="cs-toggle" style="cursor: pointer; font-size: 12px; color: #aaa;">hide</span>
+    <div style="display: flex; align-items: center; gap: 8px;">
+      <img src="${chrome.runtime.getURL('icons/icon48.png')}" style="width: 22px; height: 22px; border-radius: 6px;" />
+      <span style="font-weight: 700; font-size: 15px; letter-spacing: 0.2px; color: #fff;">Comment Sense</span>
+    </div>
+    <span id="cs-toggle" style="cursor: pointer; font-size: 12px; color: rgba(255,255,255,0.85);">hide</span>
   `;
   panel.appendChild(header);
+
+  const subtitle = document.createElement('div');
+  subtitle.textContent = "Ranked by comment quality, not views";
+  subtitle.style.cssText = `
+    font-size: 11px;
+    color: #999;
+    margin-bottom: 10px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #333;
+  `;
+  panel.appendChild(subtitle);
+
+  // Inject the keyframe animation once
+  if (!document.getElementById('cs-gradient-style')) {
+    const style = document.createElement('style');
+    style.id = 'cs-gradient-style';
+    style.textContent = `
+      @keyframes cs-gradient-shift {
+        0% { background-position: 0% 50%; }
+        50% { background-position: 100% 50%; }
+        100% { background-position: 0% 50%; }
+      }
+    `;
+    document.head.appendChild(style);
+  }
 
   const list = document.createElement('div');
   list.id = 'cs-list';
