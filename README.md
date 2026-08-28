@@ -13,12 +13,8 @@ Key points
 
 Quick start
 
-1. Clone the repo
-
+Clone the repo:
    git clone https://github.com/Insight14/Comment-Sense.git
 
-2. See the examples or docs for usage details.
-
-Contributing
-
-Contributions welcome — open an issue or a PR.
+Get API Keys:
+   Use your own YouTube Data API from Google Cloud Console, and Google Gemini API from Google AI Studio
